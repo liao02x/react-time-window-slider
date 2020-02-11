@@ -1,0 +1,138 @@
+.input-range {
+  height: 1rem;
+  position: relative;
+  width: 100%;
+}
+
+.input-range__slider {
+  display: none;
+  visibility: hidden;
+}
+
+.input-range__label--min,
+.input-range__label--max {
+  display: none;
+}
+
+.input-range__slider-container {
+  -webkit-transition: left 0.3s ease-out, width 0.3s ease-out;
+  transition: left 0.3s ease-out, width 0.3s ease-out;
+  user-select: none;
+}
+
+.input-range__label {
+  color: #aaaaaa;
+  font-family: "Helvetica Neue", san-serif;
+  font-size: 0.9rem;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  white-space: nowrap;
+}
+
+.input-range__label--value {
+  position: absolute;
+  top: -2.1rem;
+}
+
+.input-range__label-container {
+  left: -50%;
+  position: relative;
+}
+
+.input-range__track {
+  background: #eeeeee;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  display: block;
+  height: 2px;
+  position: relative;
+  -webkit-transition: left 0.3s ease-out, width 0.3s ease-out;
+  transition: left 0.3s ease-out, width 0.3s ease-out;
+}
+
+.input-range--disabled .input-range__track {
+  background: #cccccc;
+}
+
+.input-range__track--background {
+  position: absolute;
+  top: calc(50% - 1px);
+  height: 2px;
+  left: 0;
+  right: 0;
+}
+
+.input-range__track--active {
+  height: 10px;
+  transform: translateY(calc(-50% + 1px));
+  touch-action: none;
+}
+
+.input-range__track--active:active {
+  transform: translateY(calc(-50% + 1px)) scale(1.1);
+}
+
+
+
+.time-window-slider {
+  padding: 20px;
+}
+
+.time-window-input {
+  position: relative;
+}
+
+.time-window-scales {
+  color: #cccccc;
+  display: flex;
+  justify-content: space-between;
+  position: absolute;
+  top: -100%;
+  left: -20px;
+  width: calc(100% + 40px);
+  user-select: none;
+  outline: 0;
+  z-index: -2;
+}
+
+.time-window-scales__label-container {
+  position: relative;
+  width: 100%;
+  height: 16px;
+  left: -20px;
+  top: -50%;
+  color: #3f51b5;
+  z-index: -1;
+}
+
+.time-window-scale {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  align-items: center;
+  width: 40px;
+  justify-content: flex-start;
+}
+
+.time-window-scale__pointer {
+  height: 16px;
+  width: 0px;
+  border-left: 1px solid;
+}
+
+
+.time-away-from-target--long+.input-range .input-range__track--active {
+  background-color: red;
+}
+
+.time-away-from-target--middle+.input-range .input-range__track--active {
+  background-color: yellow;
+}
+
+.time-away-from-target--short+.input-range .input-range__track--active {
+  background-color: green;
+}
+
+.time-away-from-target--default+.input-range .input-range__track--active {
+  background-color: #3f51b5;
+}
