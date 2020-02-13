@@ -1,5 +1,5 @@
 .input-range {
-  height: 1rem;
+  height: 16px;
   position: relative;
   width: 100%;
 }
@@ -23,7 +23,7 @@
 .input-range__label {
   color: #aaaaaa;
   font-family: "Helvetica Neue", san-serif;
-  font-size: 0.9rem;
+  font-size: 14px;
   -webkit-transform: translateZ(0);
   transform: translateZ(0);
   white-space: nowrap;
@@ -31,7 +31,7 @@
 
 .input-range__label--value {
   position: absolute;
-  top: -2.1rem;
+  top: -33px;
 }
 
 .input-range__label-container {
@@ -41,7 +41,7 @@
 
 .input-range__track {
   background: #eeeeee;
-  border-radius: 0.3rem;
+  border-radius: 4.8px;
   cursor: pointer;
   display: block;
   height: 2px;

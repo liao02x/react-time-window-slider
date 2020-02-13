@@ -74,7 +74,7 @@ const TimeWindowSlider = ({
     );
     const windowToSeconds = window.asSeconds();
     const ratio = Math.abs(timeAwayFromEta / windowToSeconds);
-    console.log(timeAwayFromEta / windowToSeconds);
+    // console.log(timeAwayFromEta / windowToSeconds);
     if (ratio < 1 / 3) {
       return "time-away-from-target--short";
     } else if (ratio < 2 / 3) {
