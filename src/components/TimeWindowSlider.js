@@ -17,8 +17,8 @@ const TimeWindowSlider = ({
 }) => {
   const window = moment.duration(parentWindow.asMinutes() / 2, "minutes");
   const [time, setTime] = useState({
-    min: moment(parentTime.time).subtract(window),
-    max: moment(parentTime.time).add(window)
+    min: moment(parentTime).subtract(window),
+    max: moment(parentTime).add(window)
   });
   const [eta] = useState(parentEta);
 
