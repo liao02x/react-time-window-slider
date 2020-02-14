@@ -13,14 +13,13 @@ const TimeWindowSlider = ({
   onChange: parentOnChange,
   formatLabel: parentFormatLabel,
   step,
-  eta: parentEta = null
+  eta
 }) => {
   const window = moment.duration(parentWindow.asMinutes() / 2, "minutes");
   const [time, setTime] = useState({
     min: moment(parentTime).subtract(window),
     max: moment(parentTime).add(window)
   });
-  const [eta] = useState(parentEta);
 
   const validateTime = ({ min, max }) => {
     let newStart, newEnd;
@@ -95,8 +94,8 @@ const TimeWindowSlider = ({
 
     return (
       <React.Fragment>
-        {scales.map(scale => (
-          <div className="time-window-scale">
+        {scales.map(scale, index => (
+          <div className="time-window-scale" key={index}>
             <div className="time-window-scale__pointer"></div>
             <span>{scale.format("ha")}</span>
           </div>
