@@ -94,7 +94,7 @@ const TimeWindowSlider = ({
 
     return (
       <React.Fragment>
-        {scales.map(scale, index => (
+        {scales.map((scale, index) => (
           <div className="time-window-scale" key={index}>
             <div className="time-window-scale__pointer"></div>
             <span>{scale.format("ha")}</span>
