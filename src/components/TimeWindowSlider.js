@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import InputRange from "react-input-range";
 import moment from "moment";
-import "./timeWindowSlider.css";
+import "./timeWindowSlider.scss";
 
 const TimeWindowSlider = ({
   disabled,
@@ -135,7 +135,7 @@ const TimeWindowSlider = ({
           }}
           formatLabel={value => formatLabel(moment.unix(value))}
         />
-        <div style={{ position: "relative", height: "16px" }}>
+        <div className="time-window-scales__container">
           <div className="time-window-scales">{renderScales()}</div>
           {eta && (
             <div className="time-window-scales__label-container">
