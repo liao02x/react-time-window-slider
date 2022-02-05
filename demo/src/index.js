@@ -1,7 +1,7 @@
 import React, { useState } from "react";
+import { render } from "react-dom";
 import moment from "moment";
-import TimeWindowSlider from "react-time-window-slider";
-import "react-time-window-slider/dist/css/style.css";
+import TimeWindowSlider from "../../src";
 
 const App = () => {
   const [time, setTime] = useState(moment());
@@ -17,7 +17,7 @@ const App = () => {
       .set("second", 0)
       .set("millisecond", 0)
   });
-  const [window] = useState(moment.duration(6, "hours"));
+  const [timeWindow] = useState(moment.duration(6, "hours"));
   const [eta] = useState(
     moment()
       .set("hour", 13)
@@ -51,28 +51,27 @@ const App = () => {
   const formatLabel = time => time.format("hh:mm a");
 
   return (
-    <React.Fragment>
+    <div>
       <div>
-        <span>Out Time: {time.format("hh:mm a")}</span>
+        <span>Time: {time.format("hh:mm a")}</span>
+        <span>ETA: {eta.format("hh:mm a")}</span>
       </div>
       <div style={{ width: "500px", margin: "20px" }}>
-        <div className="time-range-slider">
-          <TimeWindowSlider
-            disabled={false}
-            time={time}
-            window={window}
-            bounds={bounds}
-            onChangeStart={changeStartHandler}
-            onChangeComplete={changeCompleteHandler}
-            onChange={timeChangeHandler}
-            formatLabel={formatLabel}
-            step={1}
-            eta={eta}
-          />
-        </div>
+        <TimeWindowSlider
+          disabled={false}
+          time={time}
+          timeWindow={timeWindow}
+          bounds={bounds}
+          onChangeStart={changeStartHandler}
+          onChangeComplete={changeCompleteHandler}
+          onChange={timeChangeHandler}
+          formatLabel={formatLabel}
+          step={1}
+          eta={eta}
+        />
       </div>
-    </React.Fragment>
+    </div>
   );
 };
 
-export default App;
+render(<App />, document.querySelector("#demo"));

@@ -1,86 +1,88 @@
 $slide-height: 20px;
 $scale-width: 40px;
 
-.input-range {
-  height: $slide-height;
-  position: relative;
-  width: 100%;
-
-  &__slider {
-    display: none;
-    visibility: hidden;
+.time-window-slider {
+  .input-range {
+    height: $slide-height;
+    position: relative;
+    width: 100%;
+  
+    &__slider {
+      display: none;
+      visibility: hidden;
+    }
+  
+    &__slider-container {
+      -webkit-transition: left 0.3s ease-out, width 0.3s ease-out;
+      transition: left 0.3s ease-out, width 0.3s ease-out;
+      user-select: none;
+    }
   }
-
-  &__slider-container {
+  
+  .input-range__label {
+    color: #aaaaaa;
+    font-family: "Helvetica Neue", san-serif;
+    font-size: 14px;
+    white-space: nowrap;
+  
+    &--value {
+      position: absolute;
+      top: -36px;
+    }
+  
+    &--min,
+    &--max {
+      display: none;
+    }
+  }
+  
+  .input-range__label-container {
+    left: -50%;
+    position: relative;
+    color: black;
+  }
+  
+  .input-range__track {
+    background: #eeeeee;
+    border-radius: 6px;
+    cursor: pointer;
+    display: block;
+    height: 2px;
+    position: relative;
     -webkit-transition: left 0.3s ease-out, width 0.3s ease-out;
     transition: left 0.3s ease-out, width 0.3s ease-out;
-    user-select: none;
   }
-}
-
-.input-range__label {
-  color: #aaaaaa;
-  font-family: "Helvetica Neue", san-serif;
-  font-size: 14px;
-  white-space: nowrap;
-
-  &--value {
+  
+  .input-range--disabled .input-range__track {
+    background: #cccccc;
+  }
+  
+  .input-range__track--background {
     position: absolute;
-    top: -36px;
+    top: calc(50% - 2px);
+    height: 4px;
+    left: 0;
+    right: 0;
   }
-
-  &--min,
-  &--max {
-    display: none;
+  
+  .input-range__track--active {
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 16px;
+    transform: translateY(calc(-50% + 2px));
+    touch-action: none;
   }
-}
-
-.input-range__label-container {
-  left: -50%;
-  position: relative;
-  color: black;
-}
-
-.input-range__track {
-  background: #eeeeee;
-  border-radius: 6px;
-  cursor: pointer;
-  display: block;
-  height: 2px;
-  position: relative;
-  -webkit-transition: left 0.3s ease-out, width 0.3s ease-out;
-  transition: left 0.3s ease-out, width 0.3s ease-out;
-}
-
-.input-range--disabled .input-range__track {
-  background: #cccccc;
-}
-
-.input-range__track--background {
-  position: absolute;
-  top: calc(50% - 2px);
-  height: 4px;
-  left: 0;
-  right: 0;
-}
-
-.input-range__track--active {
-  color: white;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 16px;
-  transform: translateY(calc(-50% + 2px));
-  touch-action: none;
-}
-
-.input-range__track--active span {
-  height: 25px;
-}
-
-.input-range__track--active:active {
-  transform: translateY(calc(-50% + 2px)) scale(1.1);
-  touch-action: none;
+  
+  .input-range__track--active span {
+    height: 25px;
+  }
+  
+  .input-range__track--active:active {
+    transform: translateY(calc(-50% + 2px)) scale(1.1);
+    touch-action: none;
+  }
 }
 
 .time-window-slider {

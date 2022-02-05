@@ -3,77 +3,75 @@ import InputRange from "react-input-range";
 import moment from "moment";
 import "./timeWindowSlider.scss";
 
-const TimeWindowSlider = ({
+export default function TimeWindowSlider ({
   disabled,
-  time: parentTime,
-  window: parentWindow,
+  time: propsTime,
+  timeWindow,
   bounds,
-  onChangeStart: parentOnChangeStart,
-  onChangeComplete: parentOnChangeComplete,
-  onChange: parentOnChange,
-  formatLabel: parentFormatLabel,
-  step,
+  onChangeStart: propsOnChangeStart = () => {},
+  onChangeComplete: propsOnChangeComplete = () => {},
+  onChange: propsOnChange = () => {},
+  formatLabel = time => time.format("HH:mm"),
+  step = 1,
   eta
-}) => {
-  const window = moment.duration(parentWindow.asMinutes() / 2, "minutes");
+}) {
+  const timeRadius = moment.duration(timeWindow.asMinutes() / 2, "minutes");
   const [time, setTime] = useState({
-    min: moment(parentTime).subtract(window),
-    max: moment(parentTime).add(window)
+    min: moment(propsTime).subtract(timeRadius),
+    max: moment(propsTime).add(timeRadius)
   });
 
   const validateTime = ({ min, max }) => {
-    let newStart, newEnd;
+    const minMoment = moment.unix(min)
+    const maxMoment = moment.unix(max)
+    let start, end;
     if (
-      moment.unix(min) <= bounds.minValue ||
-      moment.unix(max) >= bounds.maxValue ||
-      moment.unix(min).isSame(time.min) ||
-      moment.unix(max).isSame(time.max)
+      minMoment <= bounds.minValue ||
+      maxMoment >= bounds.maxValue ||
+      minMoment.isSame(time.min) ||
+      maxMoment.isSame(time.max)
     ) {
-      newStart = time.min;
-      newEnd = time.max;
+      start = time.min;
+      end = time.max;
     } else {
-      newStart = moment.unix(min);
-      newEnd = moment.unix(max);
+      start = minMoment;
+      end = maxMoment;
     }
 
-    const newTime = moment((newStart + newEnd) / 2);
+    const time = moment((start + end) / 2);
 
-    return { newStart, newEnd, newTime };
+    return { start, end, time };
   };
 
   const onChange = ({ min, max }) => {
-    const { newStart, newEnd, newTime } = validateTime({ min, max });
+    const { start, end, time } = validateTime({ min, max });
 
     setTime({
-      min: newStart,
-      max: newEnd
+      min: start,
+      max: end
     });
-    parentOnChange(newTime);
+
+    propsOnChange(time);
   };
 
   const onChangeStart = ({ min, max }) => {
-    const { newTime } = validateTime({ min, max });
+    const { time } = validateTime({ min, max });
 
-    parentOnChangeStart(newTime);
+    propsOnChangeStart(time);
   };
 
   const onChangeComplete = ({ min, max }) => {
-    const { newTime } = validateTime({ min, max });
+    const { time } = validateTime({ min, max });
 
-    parentOnChangeComplete(newTime);
+    propsOnChangeComplete(time);
   };
 
-  const formatLabel = time =>
-    parentFormatLabel ? parentFormatLabel(time) : time.format("HH:mm");
-
   const getColorForSlider = () => {
-    const timeAwayFromEta = moment((time.min + time.max) / 2).diff(
+    const secondsFromEta = moment((time.min + time.max) / 2).diff(
       eta,
       "seconds"
     );
-    const windowToSeconds = window.asSeconds();
-    const ratio = Math.abs(timeAwayFromEta / windowToSeconds);
-    // console.log(timeAwayFromEta / windowToSeconds);
+    const ratio = Math.abs(secondsFromEta / timeRadius.asSeconds());
     if (ratio < 1 / 3) {
       return "time-away-from-target--short";
     } else if (ratio < 2 / 3) {
@@ -90,17 +88,17 @@ const TimeWindowSlider = ({
       ).keys()
     ]
       .map(i => moment(bounds.minValue).add(i, "hours"))
-      .filter((scale, index) => index % 2 === 0);
+      .filter((_, index) => index % 2 === 0);
 
     return (
-      <React.Fragment>
+      <div className="time-window-scales">
         {scales.map((scale, index) => (
           <div className="time-window-scale" key={index}>
-            <div className="time-window-scale__pointer"></div>
+            <div className="time-window-scale__pointer" />
             <span>{scale.format("ha")}</span>
           </div>
         ))}
-      </React.Fragment>
+      </div>
     );
   };
 
@@ -119,7 +117,7 @@ const TimeWindowSlider = ({
           className={
             eta ? getColorForSlider() : "time-away-from-target--default"
           }
-        ></div>
+        />
         <InputRange
           disabled={disabled}
           draggableTrack
@@ -136,7 +134,7 @@ const TimeWindowSlider = ({
           formatLabel={value => formatLabel(moment.unix(value))}
         />
         <div className="time-window-scales__container">
-          <div className="time-window-scales">{renderScales()}</div>
+          {renderScales()}
           {eta && (
             <div className="time-window-scales__label-container">
               {eta <= bounds.maxValue && eta >= bounds.minValue && (
@@ -149,7 +147,7 @@ const TimeWindowSlider = ({
                   }}
                 >
                   <span>{eta.format("HH:mm")}</span>
-                  <div className="time-window-scale__pointer"></div>
+                  <div className="time-window-scale__pointer" />
                 </div>
               )}
             </div>
@@ -159,13 +157,3 @@ const TimeWindowSlider = ({
     </div>
   );
 };
-
-TimeWindowSlider.defaultProps = {
-  disabled: false,
-  onChange: () => {},
-  onChangeComplete: () => {},
-  onChangeStart: () => {},
-  step: 1
-};
-
-export default TimeWindowSlider;
